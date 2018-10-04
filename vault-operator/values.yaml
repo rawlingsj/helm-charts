@@ -6,8 +6,13 @@ replicaCount: 1
 
 image:
   repository: banzaicloud/vault-operator
-  tag: latest
+  tag: master
   pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  externalPort: 80
+  internalPort: 8080
 
 nameOverride: ""
 fullnameOverride: ""
@@ -25,3 +30,14 @@ resources:
     memory: 128Mi
 
 terminationGracePeriodSeconds: 10
+
+probePath: /
+livenessProbe:
+  initialDelaySeconds: 60
+  periodSeconds: 10
+  successThreshold: 1
+  timeoutSeconds: 1
+readinessProbe:
+  periodSeconds: 10
+  successThreshold: 1
+  timeoutSeconds: 1
